@@ -35,12 +35,27 @@ export class ProductsService {
   }
 
   async findOne(parameter: string) {
-    const search = isUUID(parameter) ? { id: parameter } : { slug: parameter };
-
+    const queryBuilder = this.productRepository.createQueryBuilder();
+    let product: Product;
     try {
-      const product = await this.productRepository.findOne({
-        where: [search],
-      });
+      if (isUUID(parameter))
+        product = await this.productRepository.findOneBy({ id: parameter });
+
+      if (!isUUID(parameter)) {
+        product = await queryBuilder
+          .where('LOWER(title) = :title OR LOWER(slug) = :slug', {
+            title: parameter.toLowerCase(),
+            slug: parameter.toLowerCase(),
+          })
+          .getOne();
+      }
+
+      //More way to find a product
+      //const product = await queryBuilder.where(search).getOne();
+
+      //const product = await this.productRepository.findOne({
+      //  where: [search],
+      //});
 
       if (!product)
         throw new BadRequestException('Product `' + parameter + '` not found');
