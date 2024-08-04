@@ -45,7 +45,7 @@ export class Product {
   @Column('text', {
     array: true,
   })
-  size: string[];
+  sizes: string[];
 
   @Column('text')
   gender: string;
