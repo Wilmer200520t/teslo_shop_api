@@ -48,6 +48,13 @@ export class Product {
   @Column('text')
   gender: string;
 
+  @Column('text', {
+    array: true,
+    nullable: true,
+    default: [],
+  })
+  tags: string[];
+
   private generateSlug(title: string): string {
     return title.toLowerCase().replaceAll(' ', '_').replaceAll("'", '');
   }
