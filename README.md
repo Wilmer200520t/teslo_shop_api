@@ -18,7 +18,7 @@ git clone link
 2. Move to the main folder
 
 ```bash
-cd teslo-shop
+cd teslo_shop_api
 ```
 
 3. Install node dependencies
@@ -38,4 +38,13 @@ npm install
 
 ```bash
 docker compose up -d
+```
+
+## Preload data test (Optional)
+
+1. Run app and database
+2. Execute
+
+```bash
+curl --location 'BASE_URL/api/seed'
 ```
