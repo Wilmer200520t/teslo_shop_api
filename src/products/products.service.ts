@@ -66,8 +66,20 @@ export class ProductsService {
     }
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    try {
+      const product = await this.productRepository.preload({
+        id: id,
+        ...updateProductDto,
+      }); //Preload is used to update only the fields that are passed
+
+      if (!product)
+        throw new BadRequestException('Product `' + id + '` not found');
+
+      return await this.productRepository.save(product);
+    } catch (error) {
+      this.handleDBError(error);
+    }
   }
 
   async remove(id: string) {
@@ -83,6 +95,9 @@ export class ProductsService {
   private handleDBError(error: any) {
     this.logger.error(error);
 
-    throw new BadRequestException(error.detail || error.message || error);
+    let errorMessage = error.message || error.detail || error;
+    errorMessage = errorMessage.replaceAll(/"/g, '');
+
+    throw new BadRequestException(errorMessage);
   }
 }
