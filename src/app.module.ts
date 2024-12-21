@@ -8,17 +8,21 @@ import { CommonModule } from './common/common.module';
 import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { AuthModule } from './auth/auth.module';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +env.DB_PORT,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
+      host: env.DB_TESLO_HOST,
+      port: +env.DB_TESLO_PORT,
+      database: env.DB_TESLO_NAME,
+      username: env.DB_TESLO_USER,
+      password: env.DB_TESLO_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
     }),
@@ -29,6 +33,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     CommonModule,
     SeedModule,
     FilesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
