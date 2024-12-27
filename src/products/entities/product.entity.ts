@@ -3,10 +3,12 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductImage } from '.';
+import { User } from 'src/auth/entities/users.entity';
 
 @Entity({
   name: 'products',
@@ -64,6 +66,12 @@ export class Product {
     eager: true, // Load images when loading product
   })
   images?: ProductImage[];
+
+  @ManyToOne(() => User, (user) => user.product, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  user: User;
 
   private generateSlug(title: string): string {
     return title.toLowerCase().replaceAll(' ', '_').replaceAll("'", '');

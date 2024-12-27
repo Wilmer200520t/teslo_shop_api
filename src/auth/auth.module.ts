@@ -35,6 +35,13 @@ dotenv.config();
     //  signOptions: { expiresIn: '1d' },
     //}),
   ],
-  exports: [JwtModule, PassportModule, JwtStrategy, TypeOrmModule],
+  exports: [
+    JwtModule,
+    PassportModule,
+    JwtStrategy,
+    TypeOrmModule,
+    AuthService,
+    AuthModule,
+  ],
 })
 export class AuthModule {}

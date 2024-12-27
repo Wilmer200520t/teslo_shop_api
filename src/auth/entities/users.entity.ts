@@ -4,9 +4,11 @@ import {
   Column,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ValidRoles } from '../interfaces/valid.roles';
+import { Product } from 'src/products/entities';
 
 @Entity('users')
 export class User {
@@ -32,6 +34,9 @@ export class User {
 
   @Column('text', { array: true, default: ['user'] })
   roles: ValidRoles[];
+
+  @OneToMany(() => Product, (Product) => Product.user)
+  product: Product;
 
   @BeforeInsert()
   emailToLowerCase() {

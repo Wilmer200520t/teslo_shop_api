@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { PaginationDto } from 'src/dtos/pagination.dto';
+import { User } from 'src/auth/entities/users.entity';
 
 @Injectable()
 export class ProductsService {
@@ -20,7 +21,7 @@ export class ProductsService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, user: User) {
     const { images = [], ...ProductDetails } = createProductDto;
     try {
       const product = this.productRepository.create({
@@ -28,6 +29,7 @@ export class ProductsService {
         images: images.map((url) =>
           this.productImageRepository.create({ url }),
         ),
+        user,
       });
 
       await this.productRepository.save(product);
@@ -83,7 +85,7 @@ export class ProductsService {
     }
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
+  async update(id: string, updateProductDto: UpdateProductDto, user: User) {
     const queryRunner = this.dataSource.createQueryRunner();
     try {
       const { images, ...ProductDetails } = updateProductDto;
@@ -91,6 +93,7 @@ export class ProductsService {
       const product = await this.productRepository.preload({
         id: id,
         ...ProductDetails,
+        user,
       }); //Preload is used to update only the fields that are passed
 
       if (!product)
@@ -141,16 +144,25 @@ export class ProductsService {
   private makeProductResponse(product: Product[] | Product) {
     if (Array.isArray(product)) {
       return product.map((product) => {
+        const user = product.user;
+        delete user.password;
+        delete user.email;
         return {
           ...product,
           images: product.images.map((img) => img.url),
+          user,
         };
       });
     }
 
+    const user = product.user;
+    delete user.password;
+    delete user.email;
+
     return {
       ...product,
       images: product.images.map((img) => img.url),
+      user,
     };
   }
 

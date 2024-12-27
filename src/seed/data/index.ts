@@ -1,3 +1,5 @@
+import { ValidRoles } from 'src/auth/interfaces';
+
 interface SeedProduct {
   description: string;
   images: string[];
@@ -11,11 +13,20 @@ interface SeedProduct {
   gender: 'men' | 'women' | 'kid' | 'unisex';
 }
 
+interface SeedUser {
+  fullName: string;
+  email: string;
+  password: string;
+  isActive: boolean;
+  roles: ValidRoles[];
+}
+
 type ValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 type ValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats';
 
 interface SeedData {
   products: SeedProduct[];
+  users: SeedUser[];
 }
 
 export const initialData: SeedData = {
@@ -697,6 +708,29 @@ export const initialData: SeedData = {
       tags: ['shirt'],
       title: 'Kids Corp Jacket',
       gender: 'kid',
+    },
+  ],
+  users: [
+    {
+      fullName: 'Wilmer Rojas',
+      email: 'wilmer.2030@hotmail.com',
+      password: 'Wilmer2005!',
+      roles: [ValidRoles.user],
+      isActive: true,
+    },
+    {
+      fullName: 'admin',
+      email: 'admin@hotmail.com',
+      password: 'Admin2000!',
+      roles: [ValidRoles.admin],
+      isActive: true,
+    },
+    {
+      fullName: 'superAdmin',
+      email: 'superadmin@hotmail.com',
+      password: 'Superadmin2000!',
+      roles: [ValidRoles.superAdmin],
+      isActive: true,
     },
   ],
 };
