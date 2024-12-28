@@ -53,4 +53,4 @@ curl --location 'BASE_URL/api/seed'
 ## Documentation (Optional)
 
 1. Run app and database
-2. Enter to path `BASE_URL/api` or `BASE_URL/swagger/json`(Format JSON)
+2. Enter to path `BASE_URL/docs` or `BASE_URL/docs/json`(Format JSON)

@@ -5,10 +5,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function App() {
   const app = await NestFactory.create(AppModule);
+  // Set the global prefix for the API
   app.setGlobalPrefix('api');
 
-  const logger = new Logger('NestMainApp');
-
+  // ValidationPipe for global validation
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -20,6 +20,7 @@ async function App() {
     }),
   );
 
+  // Swagger OPEN API documentation
   const config = new DocumentBuilder()
     .setTitle('Teslo Shop API')
     .setDescription('The Teslo Shop API description')
@@ -28,13 +29,15 @@ async function App() {
     .build();
 
   const documentFactory = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
-  SwaggerModule.setup('swagger', app, documentFactory, {
-    jsonDocumentUrl: 'swagger/json',
+  SwaggerModule.setup('docs', app, documentFactory, {
+    jsonDocumentUrl: 'docs/json',
   });
 
+  // Start the server
   await app.listen(process.env.PORT);
 
+  // Log the server URL
+  const logger = new Logger('NestMainApp');
   logger.log(`Server is running on ${await app.getUrl()}`);
 }
 
