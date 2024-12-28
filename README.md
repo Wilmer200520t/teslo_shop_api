@@ -44,7 +44,13 @@ docker compose up -d
 
 1. Run app and database
 2. Execute
+   > **⚠️ IMPORTANT:** You need a login active with the role **Super admin**.
 
 ```bash
 curl --location 'BASE_URL/api/seed'
 ```
+
+## Documentation (Optional)
+
+1. Run app and database
+2. Enter to path `BASE_URL/api` or `BASE_URL/swagger/json`(Format JSON)
