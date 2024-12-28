@@ -54,7 +54,7 @@ export class AuthService {
     delete user.password;
 
     return {
-      token: this.getJwtToken(user),
+      token: this.getJwtToken({ id: user.id }),
     };
   }
 
@@ -74,5 +74,18 @@ export class AuthService {
     errorMessage = errorMessage.replaceAll(/"/g, '');
 
     throw new BadRequestException(errorMessage);
+  }
+
+  async checkAuthStatus(idUser: string): Promise<any> {
+    if (!idUser) throw new UnauthorizedException('User not found in request');
+
+    const userDB = await this.userRepository.findOneBy({ id: idUser });
+
+    if (!userDB) throw new UnauthorizedException('User not found in database');
+
+    return {
+      ...userDB,
+      token: this.getJwtToken({ id: userDB.id }),
+    };
   }
 }

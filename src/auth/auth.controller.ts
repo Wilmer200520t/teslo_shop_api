@@ -34,6 +34,12 @@ export class AuthController {
     return { email, user, rawHeaders };
   }
 
+  @Get('check-auth-status')
+  @Auth()
+  async check_auth_status(@GetUser('id') idUser: string): Promise<any> {
+    return this.authService.checkAuthStatus(idUser);
+  }
+
   @Get('server_info')
   //@UseGuards(AuthGuard(), UserRoleGuard)
   //@SetMetadata('roles', ['admin', 'super-admin'])
