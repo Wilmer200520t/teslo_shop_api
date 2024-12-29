@@ -9,6 +9,7 @@ import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './auth/auth.module';
+import { MessageWsModule } from './message-ws/message-ws.module';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -34,6 +35,7 @@ dotenv.config();
     SeedModule,
     FilesModule,
     AuthModule,
+    MessageWsModule,
   ],
   controllers: [],
   providers: [],

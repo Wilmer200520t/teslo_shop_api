@@ -8,6 +8,12 @@ async function App() {
   // Set the global prefix for the API
   app.setGlobalPrefix('api');
 
+  // Enable CORS
+  app.enableCors({
+    origin: '*',
+    methods: 'GET, POST, PUT, DELETE',
+  });
+
   // ValidationPipe for global validation
   app.useGlobalPipes(
     new ValidationPipe({
