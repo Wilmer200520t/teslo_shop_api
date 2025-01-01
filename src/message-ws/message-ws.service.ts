@@ -20,4 +20,8 @@ export class MessageWsService {
   getConnectedClients(): number {
     return Object.keys(this.connectedClients).length;
   }
+
+  getClients(): string[] {
+    return Object.keys(this.connectedClients);
+  }
 }
