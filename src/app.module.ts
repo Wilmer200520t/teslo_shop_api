@@ -19,10 +19,10 @@ dotenv.config();
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       ssl: process.env.STAGE === 'prod',
-      extra:
-        process.env.STAGE === 'prod'
-          ? { ssl: { rejectUnauthorized: false } }
-          : null,
+      extra: {
+        ssl:
+          process.env.STAGE === 'prod' ? { rejectUnauthorized: false } : null,
+      },
       type: 'postgres',
       host: env.DB_TESLO_HOST,
       port: +env.DB_TESLO_PORT,
